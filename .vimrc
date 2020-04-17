@@ -141,6 +141,15 @@ nnoremap <Leader>cl :nohlsearch<CR>
 " Open/Close code folds
 nnoremap <Leader>za
 
+" any-jump key bindings
+let g:any_jump_disable_default_keybindings=1
+nnoremap <Leader><F12> :AnyJump<CR>
+xnoremap <Leader><F12> :AnyJumpVisual<CR>
+" Normal mode: open previous opened file (after jump)
+nnoremap <Leader>ab :AnyJumpBack<CR>
+" Normal mode: open last closed search window again
+nnoremap <Leader>al :AnyJumpLastResults<CR>
+
 " {{3
 " ---- Functions ----
 " Check for plugin updates
