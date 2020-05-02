@@ -12,6 +12,7 @@ call plug#begin(stdpath('data').'/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}    " Autocomplete
 Plug 'Yggdroot/indentLine'                         " Shows indents
 Plug 'junegunn/fzf', {'do': { -> fzf#install() } } " Fuzzy finder
+Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -93,10 +94,11 @@ set showcmd                   " Show partial command on last line on screen
 set title                     " Show the filename in the window titlebar
 set scrolloff=7               " Start scrolling n lines before horizontal border of window
 set sidescrolloff=7           " Start scrolling n chars before end of screen
-set number                    " Enable line numbers
+set number relativenumber     " Enable line numbers / relative line numbers
 set ruler                     " Shows Column / Line number
 set colorcolumn=160
 set mouse=a
+set splitbelow splitright     " Open split windows the RIGHT way
 
 " ---- Indentation and Text-Wrap ----
 set expandtab                 " Expand tabs to spaces
@@ -118,19 +120,9 @@ set foldenable
 set foldmethod=indent
 set foldlevelstart=10
 
-" Currently not needed since using airline plugin
-" Add useful stuff to title bar (file name, flags, cwd)
-"if has('title') && (has('gui_running') || &title)
-"  set titlestring=
-"  set titlestring+=%f
-"  set titlestring+=%h%m%r%w
-"  set titlestring+=\ -\ %{v:progname}
-"  set titlestring+=\ -\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}
-"endif
-
 " ---- Bindings ----
 " Set <Space> as the leader
-map <Space> <Leader>
+let mapleader=" "
 nnoremap j gj
 nnoremap k gk
 
@@ -138,8 +130,19 @@ noremap <Leader>tw :call TrimWhitespace()<CR>
 
 " Clear search highlight
 nnoremap <Leader>cl :nohlsearch<CR>
-" Open/Close code folds
-nnoremap <Leader>za
+
+" Remap splits navigation to just CTRL + hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Make adjusing split sizes a bit more friendly
+noremap <silent> <C-Left> :vertical resize +3<CR>
+noremap <silent> <C-Right> :vertical resize -3<CR>
+noremap <silent> <C-Up> :resize +3<CR>
+noremap <silent> <C-Down> :resize -3<CR>
+
 
 " any-jump key bindings
 let g:any_jump_disable_default_keybindings=1
@@ -223,22 +226,12 @@ endfunction
 "set statusline+=(%l\ /\ %L)                              " Cursor line/total lines
 
 
-" Window movements
-"nnoremap <M-Right> <C-W><Right>
-"nnoremap <M-Up> <C-W><Up>
-"nnoremap <M-Left> <C-W><Left>
-"nnoremap <M-Down> <C-W><Down>
-
-" Open window below instad of above
-"nnoremap <C-W>N :let sb=&sb<BAR>set sb<BAR>new<BAR>let &sb=sb<CR>
-
-" Vertical equivalent of C-w-n and C-w-N
-"nnoremap <C-w>v :vnew<CR>
-"nnoremap <C-w>V :let spr=&spr<BAR>set nospr<BAR>vnew<BAR>let &spr=spr<CR>
-
-" I open new windows to warrant using up C-M-arrows on this
-"nmap <C-M-Up> <C-w>n
-"nmap <C-M-Down> <C-w>N
-"nmap <C-M-Right> <C-w>v
-"nmap <C-M-Left> <C-w>V
-
+" Currently not needed since using airline plugin
+" Add useful stuff to title bar (file name, flags, cwd)
+"if has('title') && (has('gui_running') || &title)
+"  set titlestring=
+"  set titlestring+=%f
+"  set titlestring+=%h%m%r%w
+"  set titlestring+=\ -\ %{v:progname}
+"  set titlestring+=\ -\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}
+"endif
