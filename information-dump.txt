@@ -1,0 +1,11 @@
+Getting CoC.vim up and running
+  - All of the .vimrc coc settings should already be set in the .vimrc file in this repo.
+  - To get CoC to work with C++:
+    - Inside a vim buffer run ":CocInstall coc-clangd"
+    - There are other language servers you can use but this one is the easiest
+    - You need to make sure your machine has clangd installed separately
+  - Installing clangd:
+    - As of this edit, the most recent clangd version is version 9
+    - on Debian/Ubuntu run "sudo apt-get install clangd-9"
+    - Now make the new version the default clangd:
+      - sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
