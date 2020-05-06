@@ -9,6 +9,7 @@
 
 - :CocList is a very helpful command. Shows which commands you can use, which extensions are installed/in use etc
 - :CocCommand <command> This is how you can execute extension specific commands and can be mapped to bindings in .vimrc
+- :CocUninstall <extension> This is how you can uninstall coc extensions (obviously..). If you need to know an extension name you can run `:CocList extensions`
 
 ## To get CoC to work with C++:
 

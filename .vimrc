@@ -6,6 +6,7 @@ endif
 set nocompatible     " Disable Vi compatability
 
 filetype plugin indent off
+syntax on
 
 " {{{1
 " ---- Plugins and Plugin Configs ----
@@ -130,7 +131,7 @@ set foldlevelstart=10
 " ---- Experimental ---- "
 set pumheight=10
 set laststatus=0
-set clipboard=unnamedplus
+set clipboard=unnamedplus     " set yy and p to automatically use the system clipboard
 
 " ---- Bindings ----
 " Set <Space> as the leader
@@ -163,8 +164,18 @@ noremap <silent> <C-Right> :vertical resize -3<CR>
 noremap <silent> <C-Up> :resize +3<CR>
 noremap <silent> <C-Down> :resize -3<CR>
 
+" Make pasting better. NOTE: these are only needed if your system does not support
+" the clipboard function [vim --version shows -clipboard], if your system does
+" support the clipboard, then `set clipboard=unnamedplus` should suffice
+noremap <Leader>y "+y
+noremap <Leader>p "+p
+noremap <Leader>Y "+Y
+noremap <Leader>P "+P
 
-" {{{3 
+
+
+
+" {{{3
 " ####################
 " ---- CoC specific stuff. Literally need it's own space because it's coc.. ----
 " ####################
@@ -192,16 +203,8 @@ nmap <silent> gr <Plug>(coc-references)
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-"let g:coc_snippet_next = '<TAB>'
-"let g:coc_snippet_prev = '<S_TAB>'
-
-" Use <CR> to confirm completion. <C-g>u means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm
-"if exists('*complete_info')
-"  inoremap <expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-"else
-"  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-"endif
+" Use <Leader><C-o> to toggle between source and header (C++)
+nnoremap <silent> <Leader><C-o> :CocCommand clangd.switchSourceHeader<CR>
 
 
 
