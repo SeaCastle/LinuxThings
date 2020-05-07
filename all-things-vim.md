@@ -1,8 +1,8 @@
 # Getting CoC.vim up and running
 
 - All of the .vimrc coc settings should already be set in the .vimrc file in this repo.
-- The CoC repo with instructions is found [here](https://github.com/neoclide/coc.vim)
-- Using CoC extensions [wiki](https://github.com/neoclide/coc.vim/wiki/Using-coc-extensions). This contains language servers you can use/install
+- The CoC repo with instructions is found [here](https://github.com/neoclide/coc.nvim)
+- Using CoC extensions [wiki](https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions). This contains language servers you can use/install
 - Install [Nodejs](https://nodejs.org/en/download/) if you don't have it already: `curl -sL install-node-now.sh/lts | bash`
 
 ## Some useful notes
@@ -35,3 +35,13 @@
 - `clangd.install`            Install latest clangd release from GitHub
 - `clangd.update`             Check for updates to clangd from GitHub
 
+# Getting fzf up and running (Ubuntu versions below 19.10)
+
+- Link to github with instructions [here](https://github.com/junegunn/fzf)
+- For pretty much anything else, fzf is a simple install, but for Ubuntu version below 19.10 it's a pain in the butt
+- There are some color schemes for fzf [listed here](https://github.com/junegunn/fzf/wiki/Color-schemes) (For the popup window when searching in vim)
+
+#### Installing:
+  - Run `git clone` in any directory and then run the install script:
+  - `git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf`
+  - `~/.fzf/install`

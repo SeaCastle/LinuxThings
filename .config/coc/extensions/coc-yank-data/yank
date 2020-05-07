@@ -1,0 +1,10 @@
+507cd69f208f2fafe8d52c74db027d67|file:///home/spencer/projects/LinuxThings/information-dump.md|20|1|V|markdown
+	  - `clangd.switchSourceHeader` (should be mapped to <Leader><C-o> in .vimrc)
+	  - `clangd.install`            Install latest clangd release from GitHub
+	  - `clangd.update`             Check for updates to clangd from GitHub
+97fe5edb4c34a6111a86299cb711717e|list:/extensions|2|1|V|list
+	* coc-yank	1.1.4	~/.config/coc/extensions/node_modules/coc-yank
+	* coc-markdownlint	1.3.0	~/.config/coc/extensions/node_modules/coc-markdownlint
+	+ coc-clangd	0.3.4	~/.config/coc/extensions/node_modules/coc-clangd
+d0fe61375a73366dcab38c35751eab47|list:/extensions|4|1|V|list
+	Press ? on normal mode to get help.
