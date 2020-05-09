@@ -1,3 +1,11 @@
+" ####################
+" fzf specific keybinds and options
+" https://github.com/vim-airline/vim-airline
+" ####################
+
+" {{{1 Options and keybinds
+" ####################
+
 " This is the default extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -46,15 +54,23 @@ let g:fzf_tags_command='ctags -R'
 "
 " These need to be tested!
 " -----------------------
-"
+
+" {{{2 Functions
+" ####################
+
 "Get Files
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
 " Use ag to get files that only contain the word under the cursor (can
 " sometimes lead to less clutter and less typing)
-command! -bang -nargs=* AG
-  \ call fzf#vim#grep(
-  \   "ag -u -g ".expand('<cword>')." ".shellescape(<q-args>.expand($HOME)), 1,
-  \   fzf#vim#with_preview(), <bang>0)
+function! AgFzf(query, fullscreen)
+  let command_fmt = 'ag -u -g "%s" %s'
+  let initial_command = printf(command_fmt,"".expand('<cword>'), shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang AG call AgFzf(<q-args>, <bang>0)
 

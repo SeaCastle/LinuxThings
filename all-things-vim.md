@@ -35,6 +35,8 @@
 - `clangd.install`            Install latest clangd release from GitHub
 - `clangd.update`             Check for updates to clangd from GitHub
 
+---
+
 # Getting fzf up and running (Ubuntu versions below 19.10)
 
 - Link to github with instructions [here](https://github.com/junegunn/fzf)
@@ -45,3 +47,13 @@
   - Run `git clone` in any directory and then run the install script:
   - `git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf`
   - `~/.fzf/install`
+
+---
+
+# Installing and using Ctags
+- It seems like the go-to choice used to be exuberant-ctags but that looks like it's been abandoned since 2009.
+A possible alternative to this could be [universal c-tags](https://github.com/universal-ctags/ctags). I will be investigating this
+to see if it's an alternative that I like. Looks like somewhat of a pain to get setup but here are the [installation instructions for linux](https://docs.ctags.io/en/latest/autotools.html)
+(don't forget to clone the repo after installing all the packages)
+- Once everything is installed, run `ctags -R` in your root projet directory to generate a `tags` file that you can then query inside vim
+using something like fzf. This should be defined in the .vimrc or [associated files](https://github.com/SeaCastle/LinuxThings/blob/master/.config/vim-plugins/fzf.vim)
