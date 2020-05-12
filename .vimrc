@@ -146,6 +146,9 @@ vnoremap <S-TAB> <gv
 nnoremap <silent> <TAB> :bn<CR>
 nnoremap <silent> <S-TAB> :bp<CR>
 
+" Delete current buffer without closing split ** LIFE SAVER **
+nnoremap <Leader>bd :bp\|bd \#<CR>
+
 " Remap split navigation to just CTRL + hjkl
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -166,6 +169,9 @@ noremap <Leader>p "+p
 noremap <Leader>Y "+Y
 noremap <Leader>P "+P
 
+" Paste from 'yank register'
+"nnoremap <Leader>p "0p
+"nnoremap <Leader>P "0P
 
 " {{{3
 " ---- Functions ---- "
