@@ -30,13 +30,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " ---- Unsure plugins ---- "
-"Plug 'skywind3000/asynctasks.vim'  " This is the github repo to check out
-"Plug 'skywind3000/asyncrun.vim'
 Plug 'sakhnik/nvim-gdb', {'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'mhinz/vim-grepper'
-Plug 'luochen1990/rainbow'
 Plug 'jlanzarotta/bufexplorer'
-Plug 'mhinz/vim-startify'
+Plug 'octol/vim-cpp-enhanced-highlight'
+
+Plug 'lifepillar/vim-colortemplate'  " Delete this later
 
 if has('nvim') || has('patch-8.2')
   Plug 'mhinz/vim-signify'
@@ -48,6 +47,7 @@ endif
 Plug 'tomasiser/vim-code-dark'                     " Visual studio-like colorscheme
 Plug 'ayu-theme/ayu-vim'
 Plug 'dracula/vim', {'as': 'dracula'}
+Plug 'arzg/vim-colors-xcode'
 
 call plug#end()
 
@@ -59,14 +59,17 @@ source $HOME/.config/vim-plugins/coc.vim
 source $HOME/.config/vim-plugins/fzf.vim
 source $HOME/.config/vim-plugins/indentline.vim
 source $HOME/.config/vim-plugins/signify.vim
-source $HOME/.config/vim-plugins/startify.vim
+" source $HOME/.config/vim-plugins/startify.vim
 
-"set termguicolors
-"hi CursorLine    guibg=#402B3D
+" Some cpp syntax stuff
+let g:cpp_class_decl_highlight = 1
+let g:cpp_class_scope_highlight = 1
 
-colorscheme codedark
-let g:rainbow_active=1
+set termguicolors    " Enable true color support
 
+let g:xcodedark_green_comments = 1
+let g:xcodedark_emph_funcs = 1
+colorscheme xcodedarkcpp
 
 " {{{2
 " ---- Typical Vim Settings ---- "
