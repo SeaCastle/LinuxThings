@@ -4,6 +4,7 @@
 
 set nocompatible     " Disable Vi compatability
 
+set directory^=$HOME/.vim/tmp//   " Store all .swp files in a single location (~/.vim/tmp)
 filetype plugin on
 filetype indent off
 syntax enable
@@ -35,8 +36,6 @@ Plug 'mhinz/vim-grepper'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'octol/vim-cpp-enhanced-highlight'
 
-Plug 'lifepillar/vim-colortemplate'  " Delete this later
-
 if has('nvim') || has('patch-8.2')
   Plug 'mhinz/vim-signify'
 else
@@ -59,17 +58,13 @@ source $HOME/.config/vim-plugins/coc.vim
 source $HOME/.config/vim-plugins/fzf.vim
 source $HOME/.config/vim-plugins/indentline.vim
 source $HOME/.config/vim-plugins/signify.vim
-" source $HOME/.config/vim-plugins/startify.vim
 
-" Some cpp syntax stuff
-let g:cpp_class_decl_highlight = 1
-let g:cpp_class_scope_highlight = 1
-
-set termguicolors    " Enable true color support
+set termguicolors
 
 let g:xcodedark_green_comments = 1
 let g:xcodedark_emph_funcs = 1
-colorscheme xcodedarkcpp
+colorscheme xcodedark
+
 
 " {{{2
 " ---- Typical Vim Settings ---- "
@@ -129,6 +124,8 @@ set clipboard=unnamedplus     " set yy and p to automatically use the system cli
 "  h: key-notation to learn all about different key meanings
 " Set <Space> as the leader
 map <Space> <Leader>
+" Allow ctrl-c to exit insert mode
+inoremap <C-c> <Esc>
 
 " Make j,k respect virtual lines rather than physical lines. This may only be
 " needed if you have word wrapping (?)

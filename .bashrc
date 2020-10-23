@@ -37,15 +37,9 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# Force 256 color in xterm
-# https://www.robmeerman.co.uk/unix/256colours
-#if [ "$TERM" == "xterm" ]; then
-#    export TERM=xterm-256color
-#fi
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    xterm|xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -65,18 +59,21 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+    if [[ ${EUID} == 0 ]] ; then
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\]'
+    else
+        # default:: PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\]'
+    fi
 else
-    #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$'
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"
     ;;
 *)
     ;;
@@ -126,18 +123,22 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Fzf stuff
-export FZF_DEFAULT_COMMAND='ag -uiQ -g ""'
+if [ -x /usr/bin/mint-fortune ]; then
+     /usr/bin/mint-fortune
+fi
+export PATH="$HOME/.rbenv/bin:/opt/radX/bin:$PATH"
+eval "$(rbenv init -)"
+#export CMAKE_PREFIX_PATH="/opt/Qt5.10.1/5.10.1/gcc_64/lib/cmake"
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+if [ -f ~/.custom_commands.sh ]; then
+    . ~/.custom_commands.sh
+fi
+
+export FZF_DEFAULT_COMMAND='ag -iQ -g ""'
+export FZF_DEFAULT_OPTS='--layout=reverse --info=inline --color=dark' # Check this
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_DEFAULT_OPTS='--layout=reverse --info=inline
---color=dark
---color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f
---color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7
-'
 
-# Aliases
-alias sorc="source ~/.bashrc"
-alias sshkey="cat ~/.ssh/id_rsa.pub | pbcopy && echo 'Copied SSH key to clipboard'"
-alias tags="ctags -R"
+export EDITOR=nvim
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+alias sorc='source ~/.bashrc'
