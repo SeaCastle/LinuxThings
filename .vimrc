@@ -4,7 +4,6 @@
 
 set nocompatible     " Disable Vi compatability
 
-set directory^=$HOME/.vim/tmp//   " Store all .swp files in a single location (~/.vim/tmp)
 filetype plugin on
 filetype indent off
 syntax enable
@@ -29,12 +28,16 @@ Plug 'junegunn/fzf', {'do': { -> fzf#install() } } " Fuzzy finder
 Plug 'junegunn/fzf.vim'                            " Also needed for Fuzzy finder
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
 
 " ---- Unsure plugins ---- "
 Plug 'sakhnik/nvim-gdb', {'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'mhinz/vim-grepper'
 Plug 'jlanzarotta/bufexplorer'
-Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'nvim-treesitter/nvim-treesitter'
+" Plug 'octol/vim-cpp-enhanced-highlight'
+
+Plug 'lifepillar/vim-colortemplate'  " Delete this later
 
 if has('nvim') || has('patch-8.2')
   Plug 'mhinz/vim-signify'
@@ -43,10 +46,10 @@ else
 endif
 
 " ---- Colorschemes ---- "
-Plug 'tomasiser/vim-code-dark'                     " Visual studio-like colorscheme
+Plug 'tomasiser/vim-code-dark'           " Visual studio-like colorscheme
 Plug 'ayu-theme/ayu-vim'
 Plug 'dracula/vim', {'as': 'dracula'}
-Plug 'arzg/vim-colors-xcode'
+Plug 'arzg/vim-colors-xcode'             " Best color scheme ever? yes.
 
 call plug#end()
 
@@ -58,13 +61,17 @@ source $HOME/.config/vim-plugins/coc.vim
 source $HOME/.config/vim-plugins/fzf.vim
 source $HOME/.config/vim-plugins/indentline.vim
 source $HOME/.config/vim-plugins/signify.vim
+" source $HOME/.config/vim-plugins/startify.vim
 
-set termguicolors
+" Some cpp syntax stuff
+let g:cpp_class_decl_highlight = 1
+let g:cpp_class_scope_highlight = 1
+
+set termguicolors    " Enable true color support
 
 let g:xcodedark_green_comments = 1
 let g:xcodedark_emph_funcs = 1
-colorscheme xcodedark
-
+colorscheme xcodedarkcpp
 
 " {{{2
 " ---- Typical Vim Settings ---- "
@@ -121,11 +128,9 @@ set laststatus=0              " I don't like a constant status line. Set to 2 if
 set clipboard=unnamedplus     " set yy and p to automatically use the system clipboard
 
 " ---- Bindings ---- "
-"  h: key-notation to learn all about different key meanings
+" h: key-notation to learn all about different key meanings
 " Set <Space> as the leader
 map <Space> <Leader>
-" Allow ctrl-c to exit insert mode
-inoremap <C-c> <Esc>
 
 " Make j,k respect virtual lines rather than physical lines. This may only be
 " needed if you have word wrapping (?)
@@ -164,10 +169,36 @@ noremap <silent> <C-Down> :resize -3<CR>
 " Make pasting better. NOTE: these are only needed if your system does not support
 " the clipboard function [vim --version shows -clipboard], if your system does
 " support the clipboard, then `set clipboard=unnamedplus` should suffice
-noremap <Leader>y "+y
-noremap <Leader>p "+p
-noremap <Leader>Y "+Y
-noremap <Leader>P "+P
+" noremap <Leader>y "+y
+" noremap <Leader>p "+p
+" noremap <Leader>Y "+Y
+" noremap <Leader>P "+P
+
+" move all highlighted lines up/down and keep space formatting. Will
+" re-highlit after the move
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Allow ctrl+c to get you out of insert mode
+inoremap <C-c> <esc>
+
+" vim-fugitive stuff
+" //3 -> accept change from left, //2 -> accept change from right
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
+nmap <leader>gs :G<CR>
+
+" Terminal commands
+" fdsa is first through fourth finger left hand home row.
+nmap <leader>tf :call GotoBuffer(0)<CR>
+nmap <leader>td :call GotoBuffer(1)<CR>
+nmap <leader>ts :call GotoBuffer(2)<CR>
+nmap <leader>ta :call GotoBuffer(3)<CR>
+
+nmap <leader>tsf :call SetBuffer(0)<CR>
+nmap <leader>tsd :call SetBuffer(1)<CR>
+nmap <leader>tss :call SetBuffer(2)<CR>
+nmap <leader>tsa :call SetBuffer(3)<CR>
 
 " Paste from 'yank register'
 "nnoremap <Leader>p "0p
@@ -210,6 +241,37 @@ function! s:JobHandlerNeovim(job_id, data, event) dict
   endif
 endfunction
 
+" Used with remap above for going to specific terminal buffer
+fun! GotoBuffer(ctrlId)
+    if (a:ctrlId > 9) || (a:ctrlId < 0)
+        echo "CtrlID must be between 0 - 9"
+        return
+    end
+
+    let contents = g:win_ctrl_buf_list[a:ctrlId]
+    if type(l:contents) != v:t_list
+        echo "Nothing There"
+        return
+    end
+
+    let bufh = l:contents[1]
+    call nvim_win_set_buf(0, l:bufh)
+endfun
+
+" Used with remap above for setting specific terminal buffer
+let g:win_ctrl_buf_list = [0, 0, 0, 0]
+fun! SetBuffer(ctrlId)
+    if has_key(b:, "terminal_job_id") == 0
+        echo "You must be in a terminal to execute this command"
+        return
+    end
+    if (a:ctrlId > 9) || (a:ctrlId < 0)
+        echo "CtrlID must be between 0 - 9"
+        return
+    end
+
+    let g:win_ctrl_buf_list[a:ctrlId] = [b:terminal_job_id, nvim_win_get_buf(0)]
+endfun
 
 " Note: This function checks all downloaded plugins, not only active ones
 function! CheckForUpdates()

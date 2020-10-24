@@ -2,6 +2,7 @@
 
 ##Essential installs
 sudo apt install make gcc nvim clangd
+  - Possibly sudo apt install libtool
 you can also install npm if you want for coc. Not needed though
 
 ##Terminal
@@ -24,3 +25,6 @@ https://github.com/ryanoasis/powerline-extra-symbols  (used in kitty terminal)
 ##Vim
 Don't forget to run :PlugInstall to install all plugins / colorschemes etc
   - if still using xcodedarkcpp then cp LinuxThings/extra/colors/xcodedarkcpp ~/.vim/colors
+
+If using nvim-treesitter then look here [https://github.com/nvim-treesitter/nvim-treesitter]
+  - Especially look under the "Adding parsers" section
