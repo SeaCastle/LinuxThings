@@ -32,10 +32,10 @@ Plug 'tpope/vim-fugitive'
 
 " ---- Unsure plugins ---- "
 Plug 'sakhnik/nvim-gdb', {'do': ':!./install.sh \| UpdateRemotePlugins' }
-Plug 'mhinz/vim-grepper'
+"Plug 'mhinz/vim-grepper'
 Plug 'jlanzarotta/bufexplorer'
-Plug 'nvim-treesitter/nvim-treesitter'
-" Plug 'octol/vim-cpp-enhanced-highlight'
+"Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 Plug 'lifepillar/vim-colortemplate'  " Delete this later
 
@@ -152,7 +152,7 @@ nnoremap <silent> <TAB> :bn<CR>
 nnoremap <silent> <S-TAB> :bp<CR>
 
 " Delete current buffer without closing split ** LIFE SAVER **
-nnoremap <Leader>bd :bp\|bd \#<CR>
+nnoremap <expr> <silent> <Leader>bd len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 ? ':bd<CR>' : ':bp<CR>:bd #>CR>'
 
 " Remap split navigation to just CTRL + hjkl
 nnoremap <C-h> <C-w>h

@@ -126,7 +126,7 @@ fi
 if [ -x /usr/bin/mint-fortune ]; then
      /usr/bin/mint-fortune
 fi
-export PATH="$HOME/.rbenv/bin:/opt/radX/bin:$PATH"
+#export PATH="$HOME/.rbenv/bin:/opt/radX/bin:$PATH"
 eval "$(rbenv init -)"
 #export CMAKE_PREFIX_PATH="/opt/Qt5.10.1/5.10.1/gcc_64/lib/cmake"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
